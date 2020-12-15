@@ -1,0 +1,2 @@
+# ErogeLib
+Make myself ErogeLibrary
