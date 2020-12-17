@@ -110,8 +110,8 @@
     border: 0 solid #a1a1a1;
     padding: 0;
     background: rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    -moz-border-radius: 10px;
+    border-radius: 20px 0 0 20px;
+    -moz-border-radius: 20px 0 0 20px;
     /* 老的 Firefox */
   }
 
