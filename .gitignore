@@ -35,3 +35,4 @@ nbdist/
 ## NodeJS
 node_modules
 *.json
+package.json
