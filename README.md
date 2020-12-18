@@ -1,2 +1,2 @@
 # ErogeLib
-Make myself ErogeLibrary
+Life is Eroge
