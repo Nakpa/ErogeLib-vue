@@ -10,17 +10,23 @@ import lang from 'element-ui/lib/locale/lang/zh-CN'
 import moment from 'moment'
 import curvejs from 'curvejs'
 
+import Vuex from 'vuex' //引入状态管理
+import store from "@/store";
+
+
 Vue.config.productionTip = false
 
 Object.defineProperty(Vue.prototype, '$moment', { value: moment });
 Object.defineProperty(Vue.prototype, '$curvejs', { value: curvejs });
 
+Vue.use(Vuex) ;
 Vue.use(ElementUI, {lang});
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store: store,
   components: { App },
   template: '<App/>'
 })

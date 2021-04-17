@@ -1,10 +1,34 @@
 /* eslint-disable */ 
+
+import { notifyAction } from '@/utils';
+
 //第一步：实例化axios对象，并设置 1.请求地址；2.超时时间；3.设置请求头数据格式 
 const axios = require('axios'); // 创建axios对象 
 import qs from 'qs' 
 axios.defaults.baseURL = 'http://127.0.0.1:1919'; // vue请求后端地址 
 axios.defaults.timeout = 60000; // 多久超时
 axios.defaults.withCredentials = true; // 跨域访问需要发送cookie 时一定要加axios.defaults.withCredentials = true;
+
+// 定义返回状态
+const codeMessage = {
+    200: '服务器成功返回请求的数据。',
+    201: '新建或修改数据成功。',
+    202: '一个请求已经进入后台排队（异步任务）。',
+    204: '删除数据成功。',
+    400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
+    401: '用户没有权限（令牌、用户名、密码错误）。',
+    403: '用户得到授权，但是访问是被禁止的。',
+    404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
+    406: '请求的格式不可得。',
+    410: '请求的资源被永久删除，且不会再得到的。',
+    422: '当创建一个对象时，发生一个验证错误。',
+    500: '服务器发生错误，请检查服务器。',
+    502: '网关错误。',
+    503: '服务不可用，服务器暂时过载或维护。',
+    504: '网关超时。',
+    1001: '输入的原密码与账号当前密码不匹配',
+    50000: 'token认证失败!'
+};
 
 /*** 设置请求传递数据的格式（看服务器要求的格式） 
 * x-www-form-urlencoded
@@ -35,7 +59,7 @@ var fileHeader = 'multipart/form-data'
 
 axios.interceptors.request.use(config => {
      // 从localStorage中获取token
-     let token = localStorage.getItem('token'); 
+     let token = sessionStorage.getItem('Authorization'); 
     // 如果有token, 就把token设置到请求头中Authorization字段中
      token && (config.headers.Authorization = token); 
     return config; 
@@ -43,20 +67,31 @@ axios.interceptors.request.use(config => {
      return Promise.reject(error); 
 });
 
+// 异常处理程序
+const errorHandler = error => {
+    console.log(error , ' ------------------- errorHandler');
+    const { response = {} } = error;
+    const errortext = codeMessage[response.status] || response.statusText || '网络连接错误，请检查网络。';
+    notifyAction(errortext, 'error', `请求错误 ${response.status || ''}`);
+    return Promise.reject(error);
+};
 
 /**
  * 响应拦截器：当后端返回数据给vue时会调用这个函数
- 1.没次返回403错误时，跳转到login 
  */ 
-axios.interceptors.response.use(response => { 
-    // 当响应码是 2xx 的情况, 进入这里 
-    // debugger
-    return response.data;
- }, error => {
-     // 当响应码不是 2xx 的情况, 进入这里
-    //  debugger
-     return error
- });
+axios.interceptors.response.use(
+   response => { 
+    console.log(response , '----------- response');
+    let { config, headers, data } = response;
+    let { code } = data;
+    // 错误数据提示
+    if (code != 200) {
+        if (code == 500) {
+            data && notifyAction(data.message, 'error');
+        }
+   }
+   return response.data;
+ },errorHandler);
 
 //第三步：使用上面的axios对象，对get请求和post请求进行封装
  /**
