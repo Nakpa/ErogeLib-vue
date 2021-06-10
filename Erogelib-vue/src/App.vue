@@ -1,36 +1,32 @@
 <template>
   <div class="wrapper">
-    <db-header></db-header>
-    <el-row class="container">
-      <el-col :span="24" class="content">
-        <!-- <template> -->
-        <pageContent></pageContent>
-        <!-- </template> -->
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="24">
-        <footer class="footer">
-          <db-footer></db-footer>
-        </footer>
-      </el-col>
-    </el-row>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-  import DbHeader from './components/DbHeader.vue'
-  import DbFooter from './components/DbFooter.vue'
-  import pageContent from '@p/index'
 
-  export default {
-    name: 'app',
-    components: {
-      DbHeader,
-      DbFooter,
-      pageContent,
-    },
+export default {
+  name: 'app',
+
+  provide() {
+    return {
+      reload: this.reload
+    };
+  },
+
+  components: {
+  },
+
+  methods: {
+    reload() {
+      this.$nextTick(() => {
+        console.log(' page is reload ');
+      });
+    }
   }
+
+}
 
 </script>
 
