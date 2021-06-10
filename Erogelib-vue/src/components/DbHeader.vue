@@ -1,42 +1,10 @@
 <template>
   <header style="background-color: rgb(152,172,248);">
-    <el-row :gutter="20">
+    <el-row>
       <el-col :span="2">
       </el-col>
       <el-col :span="3">
         <div class="text-logo">{{msg}}</div>
-      </el-col>
-      <el-col :span="6">
-        <div class="classRadius">
-          <!-- <el-menu default-active="1" style="background-color: rgba(152,172,248,0);" background-color="#98ACF8"
-            text-color="#FFF" active-text-color="#98ACF8" :unique-opened="uniqueOpenedFlag" mode="horizontal"
-            @open="handleOpen" @close="handleClose">
-            <el-menu-item index="1">
-              <span slot="title">导航一</span>
-            </el-menu-item>
-            <el-menu-item index="2">
-              <span slot="title">导航二</span>
-            </el-menu-item>
-          </el-menu> -->
-          <el-menu :default-active="activeIndex" style="background-color: rgba(152,172,248,0);border-radius: 20px 0 0 20px;"
-            class="menuConfig" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="1">导航一</el-menu-item>
-          </el-menu>
-        </div>
-      </el-col>
-      <el-col :span="4">
-        <div class="text-logo">otherNov</div>
-      </el-col>
-      <el-col :span="4">
-        <div class="text-logo">search</div>
-      </el-col>
-      <el-col :span="2">
-        <div class="text-icon">
-          圆形ICON
-        </div>
-      </el-col>
-      <el-col :span="3">
-        <div class="text-logo"></div>
       </el-col>
     </el-row>
   </header>
@@ -74,7 +42,7 @@
 
 <style scoped>
   header {
-    height: 50px;
+    height: 8vh;
     position: absolute;
     width: 100%;
     top: 0;

@@ -17,8 +17,7 @@
 
     <div class="footer-social">
       <i class="doc-icon-weixin footdoc">
-        <span>Web Design by Nakpa</span>
-        <img src="" />
+        <span style="position:absolute;bottom:5px;right:20px">Web Design by Nakpa</span>
       </i>
       <i class="doc-icon-github footdoc"></i>
     </div>
@@ -62,9 +61,10 @@
 
 <style scoped>
   .container {
-    width: 1140px;
+    width: calc(100%-10px);
     padding: 0 10px;
     margin: 0 auto;
+    background-color: rgb(50, 64, 87);
   }
 
   a {

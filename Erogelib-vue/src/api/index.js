@@ -69,9 +69,9 @@ axios.interceptors.request.use(config => {
 
 // 异常处理程序
 const errorHandler = error => {
-    console.log(error , ' ------------------- errorHandler');
     const { response = {} } = error;
-    const errortext = codeMessage[response.status] || response.statusText || '网络连接错误，请检查网络。';
+    console.log(response , ' ------------------- errorHandler');
+    const errortext = response.data.message || codeMessage[response.status] || '网络连接错误，请检查网络。';
     notifyAction(errortext, 'error', `请求错误 ${response.status || ''}`);
     return Promise.reject(error);
 };
