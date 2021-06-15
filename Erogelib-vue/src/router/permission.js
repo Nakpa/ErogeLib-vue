@@ -4,7 +4,7 @@ import NProgress from 'nprogress'; // Progress 进度条
 import 'nprogress/nprogress.css'; // Progress 进度条样式
 
 // 访问白名单
-const whiteList = ['/login'];
+const whiteList = ['/login', '/blog/ergblog'];
 
 // 登录判断
 const isLogin = () => {

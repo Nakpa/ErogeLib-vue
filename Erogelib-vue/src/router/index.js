@@ -4,14 +4,38 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const Login = resolve =>(require(["@p/login"], resolve));
-const mainContent = resolve =>(require(["@p/index"], resolve));
+const mainContent = () => import("@p/pageContent");
+const BasicLayout = () => import('@/layout/BasicLayout');
+const RouterView = () => import('@/layout/RouterView');
 
 // 基础路由
 const basicRouterMap = [
   {
-    path: '/home',
-    name: 'home',
-    component: mainContent
+    path: '/',
+    redirect: '/home',
+    meta: { title: '首页' },
+    component: BasicLayout,
+    children: [
+      {
+        path: '/home',
+        name: 'home',
+        meta: { title: '主页面', bgColor: true, keepAlive: true },
+        component: mainContent,
+      },
+      {
+        path: '/blog',
+        redirect: '/ergblog',
+        component: RouterView,
+        children: [
+          {
+            path: '/blog/ergblog',
+            name: '我的blog',
+            meta: { title: '我的blog', bgColor: true, keepAlive: true },
+            component: mainContent,
+          }
+        ]
+      }
+    ]
   },
   {
     path: '/login',
@@ -19,10 +43,6 @@ const basicRouterMap = [
     meta: { title: '用户登录' },
     component: Login
   },
-  {
-    path: '/',
-    redirect: '/home',
-  },
 ];
 
 export default new Router({
@@ -30,12 +50,3 @@ export default new Router({
   routes: basicRouterMap,
   scrollBehavior: () => ({ y: 0 }), 
 });
-
-// export default new Router({
-//   routes: [
-//     {
-//       path: '/',
-//       name: 'index',
-//     }
-//   ]
-// })

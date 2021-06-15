@@ -1,19 +1,23 @@
 <template>
-  <div>
-    <el-row class="container">
+  <div class="mainBgClass">
+    <el-row>
       <el-col :span="24" class="content">
-        <!-- <template> -->
-        Eroge is life , like a melody
-        <el-button @click="testClick">测试按钮</el-button>
-        <el-button @click="loginTestClick">登录按钮</el-button>
-        <el-button @click="logoutTestClick">登出按钮</el-button>
-        <!-- </template> -->
+        <el-card shadow="never" :body-style="{ padding: '10px' }" class="mainInfoCard">
+          Eroge is life , like a melody
+        </el-card>
+        
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import {
+  queryTmUser,
+  userLogin
+} from '@a/erogelib/userinfo/index.js';
+
+import {mapMutations} from "vuex";
 
 export default {
 
@@ -32,11 +36,49 @@ export default {
   },
 
   methods: {
+
+    ...mapMutations(['changeLogin']),
+
+    testClick() {
+      let params = {
+        userName: 'N'
+      }
+      console.log(params , ' -------- params');
+      queryTmUser(params).then(res => {
+        if(res.code == 200){
+          console.log(res , '----------- testClick');
+          // this.$notify({
+          //   title: '提示',
+          //   message: "查询成功",
+          //   duration: 3000,
+          //   showClose: true,
+          // })
+        }
+      })
+    },
   }
 
 }
 
 </script>
 <style scoped>
-
+.mainBgClass{
+  width:100%;
+}
+.content {
+  padding-top: 25px;
+  padding-right: 25px;
+  padding-bottom: 125px;
+  padding-left: 25px;
+}
+.mainInfoCard{
+  margin: auto;
+  width: 70%;
+  height: calc(90vh - 140px);
+  /* height: 100vh; */
+  min-width: 700px;
+  min-height: 350px; 
+  margin-top: 50px;
+  background: none;
+}
 </style>
