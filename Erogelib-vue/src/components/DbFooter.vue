@@ -40,13 +40,13 @@
           return ['#22CAB3', '#90CABE', '#A6EFE8', '#C0E9ED', '#C0E9ED', '#DBD4B7', '#D4B879', '#ECCEB2', '#F2ADA6', '#FF7784'][util.random(0, 9)]
         },
         randomSpeed: function () {
-          return (Math.random() > 0.5 ? 1 : -1) * Math.random(0 , 0.0005)
+          return (Math.random() > 0.5 ? 0.5 : -0.5) * Math.random(0 , 0.001)
         }
       }
       const {Stage,Curve,motion} = this.$curvejs;
       let canvas = document.getElementById('myCanvas'),
       stage = new Stage(canvas);
-      for(let i = 0; i < 2; i++){
+      for(let i = 0; i < 3; i++){
         let curve = new Curve({
           color: util.randomColor(),
           points: [util.random(10, canvas.width - 10), util.random(10, canvas.height - 10),util.random(10, canvas.width - 10),

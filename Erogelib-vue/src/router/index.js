@@ -19,7 +19,7 @@ const basicRouterMap = [
       {
         path: '/home',
         name: 'home',
-        meta: { title: '主页面', bgColor: true, keepAlive: true },
+        meta: { title: '我的主页', bgColor: true, keepAlive: true },
         component: mainContent,
       },
       {

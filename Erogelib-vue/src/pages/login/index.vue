@@ -14,7 +14,7 @@
           </el-row>
           <el-row :gutter="10">
             <el-col :span="16">
-              <el-input v-model="password" clearable show-password placeholder="在这里输入密码哦~"/>
+              <el-input v-model="password" clearable show-password placeholder="在这里输入密码哦~" auto-complete="off" @keyup.enter.native="loginTestClick"/>
             </el-col>
           </el-row>
           <el-row :gutter="10">
@@ -66,7 +66,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['changeLogin']),
+    ...mapMutations(['changeLogin', 'setUserInfo']),
 
     loginTestClick() {
       if(!this.account || !this.password){
@@ -88,6 +88,14 @@ export default {
             showClose: true,
           })
           this.changeLogin({ Authorization: res.result.token });
+          let userInfo = {
+            userName: res.result.userName,
+            userAccount: res.result.userAcco,
+            userId: res.result.userId,
+            email: res.result.email,
+            remark: res.result.remark,
+          }
+          this.setUserInfo(userInfo);
           this.$router.push({path: '/home'});
         }
       }).catch(err => {

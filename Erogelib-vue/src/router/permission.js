@@ -12,31 +12,39 @@ const isLogin = () => {
 };
 
 router.beforeEach((to, from, next) => {
-    NProgress.start()
-    //鉴权拦截操作
-    let token = sessionStorage.getItem('Authorization')
-    console.log(' access route');
-    if (token) {
-      if (to.path === '/login') {
-        next({ path: '/' })
-        NProgress.done()
-      } else {
-        next();
-        NProgress.done()
-      }
-      console.log( token , ' >>>>  access route >> permission');
+  NProgress.start()
+  //鉴权拦截操作
+  let token = sessionStorage.getItem('Authorization')
+  console.log(' access route');
+  changeDocTitle(to);
+  if (token) {
+    if (to.path === '/login') {
+      next({ path: '/' })
+      NProgress.done()
     } else {
-      if (whiteList.indexOf(to.path) !== -1) {
-        next()
-      } else {
-        next(`/login?redirect=${to.path}`)
-        NProgress.done()
-      }
-      console.log( ' access route false >> permission');
+      next();
+      NProgress.done()
     }
-  })
+    console.log( token , ' >>>>  access route >> permission');
+  } else {
+    if (whiteList.indexOf(to.path) !== -1) {
+      next()
+    } else {
+      next(`/login?redirect=${to.path}`)
+      NProgress.done()
+    }
+    console.log( ' access route false >> permission');
+  }
+})
+
+// 修改页面标题
+export function changeDocTitle(to) {
+  if(to && to.meta && to.meta.title){
+    document.title = to.meta.title
+  }
+}
   
-  //全局后置守卫
-  router.afterEach(() => {
-    NProgress.done()
-  })
+//全局后置守卫
+router.afterEach(() => {
+  NProgress.done()
+})

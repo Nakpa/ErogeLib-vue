@@ -23,11 +23,12 @@ export default {
         <section class="mainBg">
           {$slots.default}
         </section>
-        <DbFooter></DbFooter>
+        <DbFooter class="dbfooter"></DbFooter>
       </el-container>
     );
   }
 };
+
 </script>
 
 <style lang="less" scoped>
@@ -41,5 +42,11 @@ export default {
     z-index: 0;
     width: 100%;
     height: calc(100vh - 72px);
+  }
+  .dbfooter{
+    position:absolute;
+    bottom:0;
+    left:0;
+    z-index:10;
   }
 </style>

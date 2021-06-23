@@ -60,8 +60,13 @@ var fileHeader = 'multipart/form-data'
 axios.interceptors.request.use(config => {
      // 从localStorage中获取token
      let token = sessionStorage.getItem('Authorization'); 
+     let user = sessionStorage.getItem('userInfo');
     // 如果有token, 就把token设置到请求头中Authorization字段中
      token && (config.headers.Authorization = token); 
+    // 把userId塞进请求头里
+    if(user && user.userId){
+        config.headers.userId = user.userId
+    }
     return config; 
 }, error => {
      return Promise.reject(error); 
@@ -71,8 +76,10 @@ axios.interceptors.request.use(config => {
 const errorHandler = error => {
     const { response = {} } = error;
     console.log(response , ' ------------------- errorHandler');
-    const errortext = response.data.message || codeMessage[response.status] || '网络连接错误，请检查网络。';
-    notifyAction(errortext, 'error', `请求错误 ${response.status || ''}`);
+    if(response.data){
+        const errortext = response.data.message || codeMessage[response.status] || '网络连接错误，请检查网络。';
+        notifyAction(errortext, 'error', `请求错误 ${response.status || ''}`);
+    }
     return Promise.reject(error);
 };
 
@@ -140,5 +147,5 @@ export function filePost(url, params) {
     }) 
 })}
 
-export default axios; //一定要导出函数
+export default axios; //导出函数
                  

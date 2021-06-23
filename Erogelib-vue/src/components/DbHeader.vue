@@ -15,7 +15,9 @@
             </div>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item icon="iconfont erg-icon-gerenzhongxinx" command="userInfo" disabled>我的信息</el-dropdown-item>
-              <el-dropdown-item icon="iconfont erg-icon-exit" command="logout">登出</el-dropdown-item>
+              <el-dropdown-item icon="iconfont erg-icon-new-Blog" command="userInfo" disabled>新建博文</el-dropdown-item>
+              <el-dropdown-item icon="iconfont erg-icon-tools" command="userInfo" disabled>ERG开发</el-dropdown-item>
+              <el-dropdown-item v-if="user.userId" icon="iconfont erg-icon-exit" command="logout">账号登出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -42,8 +44,16 @@
         isShowAll: true,
         novBgClass: 'novBgClass',
         novBgClassMin: 'novBgClassMin',
+        user: {},
       }
     },
+
+    mounted() {
+      this.$nextTick( () => {
+        this.user = JSON.parse(sessionStorage.getItem('userInfo')) || {}
+      })
+    },
+
     methods: {
 
       clickMore(val) {
@@ -56,6 +66,8 @@
       logoutClick() {
         localStorage.removeItem('Authorization');
         sessionStorage.removeItem('Authorization');
+        localStorage.removeItem('userInfo');
+        sessionStorage.removeItem('userInfo');
         this.$router.push({path: 'login'});
       },
 

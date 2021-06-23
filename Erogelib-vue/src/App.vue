@@ -32,6 +32,9 @@ export default {
 </script>
 
 <style>
+  .mouseDiv{
+    background-color: rgba(62,219,240, 0.3);
+  }
   element.style {
     background-color: rgb(10, 47, 88);
   }
@@ -43,6 +46,8 @@ export default {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    overflow-y: auto;
+    /* scrollbar-width: none; */
   }
 
   footer,
@@ -59,38 +64,31 @@ export default {
     font-size: 22px;
   }
 
-  /*定义滚动条的高宽*/
-	/* ::-webkit-scrollbar {
-    width: 16px;
-    height: 16px;
-	} */
-  /*CSS的坐标系，左上角为(0,0),往右往下为增加，往上往左为减少*/
-	/*显示滚动条上方的渐增按钮*/
-	/* ::-webkit-scrollbar-button:start:decrement, */
-	/*显示滚动条上方的渐减按钮*/
-	/* ::-webkit-scrollbar-button:end:increment {
-	    display: block;
-	} */
-  /*隐藏滚动条上方的渐增按钮*/
-	/* ::-webkit-scrollbar-button:vertical:start:increment,
-	::-webkit-scrollbar-button:vertical:end:decrement {
-    display: none;
-	} */
-  /* 垂直滚动条的第三层轨道的上段 */
-	/* ::-webkit-scrollbar-track-piece:vertical:start {
-	    background-repeat: no-repeat, repeat-y;
-	} */
-	/* 垂直滚动条的第三层轨道的下段 */
-	/* ::-webkit-scrollbar-track-piece:vertical:end {
-	    background-repeat: no-repeat, repeat-y;
-	    background-position: bottom left, 0 0;
-	} */
-	/* 垂直滚动条的滑动块 */
-	/* ::-webkit-scrollbar-thumb:vertical {
-	    height: 36px;
-	    border-width: 8 0 8 0;
-	} */
-
-
+  
+  /* div::-webkit-scrollbar {
+    width: 0px;
+  } */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0);
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #d6e6d346;
+    border-radius: 5px;
+    border: 1px solid #f1f1f1;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #c6d2fc;
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background-color: #424d6d;
+  }
+  ::-webkit-scrollbar-corner {
+    background-color: rgba(255, 255, 255, 0);
+  }
 
 </style>
