@@ -1,40 +1,40 @@
 <template>
   <div class="wrapper">
-    <db-header></db-header>
-    <el-row class="container">
-      <el-col :span="24" class="content">
-        <!-- <template> -->
-        <pageContent></pageContent>
-        <!-- </template> -->
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="24">
-        <footer class="footer">
-          <db-footer></db-footer>
-        </footer>
-      </el-col>
-    </el-row>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-  import DbHeader from './components/DbHeader.vue'
-  import DbFooter from './components/DbFooter.vue'
-  import pageContent from '@p/index'
+import '@/assets/css/iconfont.css';
 
-  export default {
-    name: 'app',
-    components: {
-      DbHeader,
-      DbFooter,
-      pageContent,
-    },
+export default {
+  name: 'app',
+
+  provide() {
+    return {
+      reload: this.reload
+    };
+  },
+
+  components: {
+  },
+
+  methods: {
+    reload() {
+      this.$nextTick(() => {
+        console.log(' page is reload ');
+      });
+    }
   }
+
+}
 
 </script>
 
 <style>
+  .mouseDiv{
+    background-color: rgba(62,219,240, 0.3);
+  }
   element.style {
     background-color: rgb(10, 47, 88);
   }
@@ -42,17 +42,12 @@
   body {
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     margin: 0;
+    padding: 0;
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-  }
-
-  .el-menu,body,html {
-    height: 100%;
-  }
-
-  .wrapper {
-    position: relative;
+    overflow-y: auto;
+    /* scrollbar-width: none; */
   }
 
   footer,
@@ -60,36 +55,40 @@
     display: block;
   }
 
-  .container {
-    padding-top: 50px;
-    flex: 1;
-  }
-
-  .container,.wrapper {
-    height: 100%;
-  }
-
-  .menu {
-    height: 100%;
-    background-color: #eef1f6;
-  }
-
-  .content {
-    padding-top: 25px;
-    padding-right: 25px;
-    padding-bottom: 125px;
-    padding-left: 25px;
-  }
-
-  .footer {
+  .el-footer, .el-main {
     height: 120px;
     background-color: #324057;
     color: #a4aebd;
-    width: 100%;
-    z-index: 1000;
     margin-top: -120px;
     line-height: 1;
     font-size: 22px;
+  }
+
+
+  /* div::-webkit-scrollbar {
+    width: 0px;
+  } */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0);
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #d6e6d346;
+    border-radius: 5px;
+    border: 1px solid #f1f1f1;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #c6d2fc;
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background-color: #424d6d;
+  }
+  ::-webkit-scrollbar-corner {
+    background-color: rgba(255, 255, 255, 0);
   }
 
 </style>

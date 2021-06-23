@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <footer class="container">
     <div class="footer-main">
       <p class="footer-main-title">{{ message }}</p>
       <a href="https://github.com/Nakpa/ErogeLib-vue" target="_blank"
@@ -8,22 +8,20 @@
         class="footer-main-link">Group</a>
     </div>
 
-    <div class="layout-copy footdoc">
+    <div class="layout-copy footdoc" style="text-align:center;">
       <i class="footdoc">
-        <canvas id="myCanvas" width="80" height="80" style="background-color: transparent;"></canvas>
+        <canvas id="myCanvas" width="80" height="50" style="background-color: transparent;"></canvas>
       </i>
-      <i class="footdoc">2020 @ Nakpa. - Life is Eroge - A melody in Bishojo Graphics - </i>
+      <i class="footdoc">2021 @ Nakpa. - Eroge is life , like a melody - </i>
     </div>
 
     <div class="footer-social">
       <i class="doc-icon-weixin footdoc">
-        <span>Web Design by Nakpa</span>
-        <img src="" />
+        <span style="position:absolute;bottom: 50px;right: 20px;">123123123</span>
+        <span style="position:absolute;bottom:5px;right:20px">Web Design by Nakpa</span>
       </i>
-      <i class="doc-icon-github footdoc"></i>
     </div>
-  </div>
-
+  </footer>
 </template>
 
 <script>
@@ -34,20 +32,53 @@
       }
     },
     mounted() {
+      const util = {
+        random: function (min, max) {
+          return min + Math.floor(Math.random() * (max - min + 1))
+        },
+        randomColor: function () {
+          return ['#22CAB3', '#90CABE', '#A6EFE8', '#C0E9ED', '#C0E9ED', '#DBD4B7', '#D4B879', '#ECCEB2', '#F2ADA6', '#FF7784'][util.random(0, 9)]
+        },
+        randomSpeed: function () {
+          return (Math.random() > 0.5 ? 0.5 : -0.5) * Math.random(0 , 0.001)
+        }
+      }
       const {Stage,Curve,motion} = this.$curvejs;
       let canvas = document.getElementById('myCanvas'),
-        stage = new Stage(canvas);
-      let curve = new Curve({
-        color: '#ffaeac',
-        data: {
-          value: 0,
-          step: 0.01,
-          width: 80,
-          height: 80
-        },
-        motion: motion.noise
-      });
-      stage.add(curve);
+      stage = new Stage(canvas);
+      for(let i = 0; i < 3; i++){
+        let curve = new Curve({
+          color: util.randomColor(),
+          points: [util.random(10, canvas.width - 10), util.random(10, canvas.height - 10),util.random(10, canvas.width - 10),
+            util.random(10, canvas.height - 10), util.random(10, canvas.width - 10), util.random(10, canvas.height - 10),
+            util.random(10, canvas.width - 10), util.random(10, canvas.height - 10)],
+          data: [util.randomSpeed(), util.randomSpeed(),
+          util.randomSpeed(), util.randomSpeed(),
+          util.randomSpeed(), util.randomSpeed(),
+          util.randomSpeed(), util.randomSpeed()],
+          motion: function motion(points, data) {
+            points.forEach(function (item, index) {
+              points[index] += data[index]
+              if (points[index] < 0) {
+                  points[index] = 0
+                  data[index] *= -1
+              }
+              if (index % 2 === 0) {
+                if (points[index] > canvas.width) {
+                  points[index] = canvas.width
+                  data[index] *= -1
+                }
+              } else {
+                if (points[index] > canvas.height) {
+                  points[index] = canvas.height
+                  data[index] *= -1
+                }
+              }
+            })
+          }
+        });
+        stage.add(curve);
+      }
 
       function tick() {
         stage.update();
@@ -61,10 +92,20 @@
 </script>
 
 <style scoped>
+
+  footer{
+    width: calc(100% - 20px);
+    /* line-height: 25px; */
+    position:absolute;
+    bottom:0;
+    left:0;
+    z-index:10;
+    /* box-sizing: border-box; */
+  }
   .container {
-    width: 1140px;
     padding: 0 10px;
     margin: 0 auto;
+    background-color: rgb(50, 64, 87);
   }
 
   a {
@@ -75,6 +116,7 @@
     font-size: 0;
     padding-top: 5px;
     display: inline-block;
+    width: 20%;
   }
 
   .footer-main .footer-main-title {
@@ -93,8 +135,8 @@
 
   .layout-copy {
     display: inline-block;
-    width: 570px;
-    height: 70px;
+    width: 60%;
+    height: 50px;
     margin-left: 3px;
   }
 
@@ -111,6 +153,7 @@
     float: right;
     font-size: 0;
     padding: 0 30px;
+    width: 20%;
   }
 
   .footdoc span {
@@ -123,7 +166,7 @@
   .footdoc img {
     display: inline-block;
     width: 84px;
-    height: 80px;
+    height: 50px;
     margin-top: 20px;
     transform: rotate(330deg);
     -ms-transform: rotate(330deg);

@@ -1,44 +1,35 @@
 <template>
-  <header style="background-color: rgb(152,172,248);">
-    <el-row :gutter="20">
-      <el-col :span="2">
-      </el-col>
-      <el-col :span="3">
-        <div class="text-logo">{{msg}}</div>
-      </el-col>
-      <el-col :span="6">
-        <div class="classRadius">
-          <!-- <el-menu default-active="1" style="background-color: rgba(152,172,248,0);" background-color="#98ACF8"
-            text-color="#FFF" active-text-color="#98ACF8" :unique-opened="uniqueOpenedFlag" mode="horizontal"
-            @open="handleOpen" @close="handleClose">
-            <el-menu-item index="1">
-              <span slot="title">导航一</span>
-            </el-menu-item>
-            <el-menu-item index="2">
-              <span slot="title">导航二</span>
-            </el-menu-item>
-          </el-menu> -->
-          <el-menu :default-active="activeIndex" style="background-color: rgba(152,172,248,0);border-radius: 20px 0 0 20px;"
-            class="menuConfig" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="1">导航一</el-menu-item>
-          </el-menu>
-        </div>
-      </el-col>
-      <el-col :span="4">
-        <div class="text-logo">otherNov</div>
-      </el-col>
-      <el-col :span="4">
-        <div class="text-logo">search</div>
-      </el-col>
-      <el-col :span="2">
-        <div class="text-icon">
-          圆形ICON
-        </div>
-      </el-col>
-      <el-col :span="3">
-        <div class="text-logo"></div>
-      </el-col>
-    </el-row>
+  <header style="">
+    <!-- <transition name="bounce"> -->
+      <el-row :class="isShowAll ? novBgClass : novBgClassMin" style="line-height:30px;height: 50px;background-color: rbga(238,238,238,0.6);border-bottom:1px solid rgba(252,222,192,1);">
+        <el-col v-if="isShowAll" :span="2">
+          <div class="text-logo" style="cursor:pointer;">{{msg}}</div>
+        </el-col>
+        <el-col v-if="isShowAll" :span="20">
+        </el-col>
+        <el-col :span="isShowAll ? 1 : 12">
+          <el-dropdown trigger="click" placement="bottom-start"  @command="clickMore">
+            <div style="position: relative;top: 10px;left: 10px;text-align: center;cursor:pointer;
+            border-style: none;width:30px;height:30px;border-radius:15px;border: 1px solid #00adb5;">
+              <i class="iconfont erg-icon-neko-foot-icon" style="font-size:24px;color: #00adb5;"></i>
+            </div>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item icon="iconfont erg-icon-gerenzhongxinx" command="userInfo" disabled>我的信息</el-dropdown-item>
+              <el-dropdown-item icon="iconfont erg-icon-new-Blog" command="userInfo" disabled>新建博文</el-dropdown-item>
+              <el-dropdown-item icon="iconfont erg-icon-tools" command="userInfo" disabled>ERG开发</el-dropdown-item>
+              <el-dropdown-item v-if="user.userId" icon="iconfont erg-icon-exit" command="logout">账号登出</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-col>
+        <el-col :span="isShowAll ? 1 : 12">
+          <!-- style="" -->
+          <i v-if="isShowAll" class="iconfont erg-icon-put-away-right"
+          style="cursor:pointer;font-size:26px;color: #00adb5;position: relative;top: 10px;left: 40%;border-style: none;" @click="putawayHandle"></i>
+          <i v-if="!isShowAll" class="iconfont erg-icon-put-away-left-copy"
+          style="cursor:pointer;font-size:26px;color: #00adb5;position: relative;top: 10px;left: 40%;border-style: none;" @click="putawayHandle"></i>
+        </el-col>
+      </el-row>
+    <!-- </transition> -->
   </header>
 </template>
 
@@ -47,42 +38,57 @@
     name: 'db-header',
     data() {
       return {
-        msg: 'Eroge-Lib',
+        msg: 'ErogeLib',
         uniqueOpenedFlag: true,
         activeIndex: "1",
+        isShowAll: true,
+        novBgClass: 'novBgClass',
+        novBgClassMin: 'novBgClassMin',
+        user: {},
       }
     },
+
+    mounted() {
+      this.$nextTick( () => {
+        this.user = JSON.parse(sessionStorage.getItem('userInfo')) || {}
+      })
+    },
+
     methods: {
 
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
+      clickMore(val) {
+        if(val == 'logout'){
+          this.logoutClick();
+        }
       },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
+
+      // 登出
+      logoutClick() {
+        localStorage.removeItem('Authorization');
+        sessionStorage.removeItem('Authorization');
+        localStorage.removeItem('userInfo');
+        sessionStorage.removeItem('userInfo');
+        this.$router.push({path: 'login'});
       },
-      changeActiveSpan(val) {
-        console.log(val, 'change')
-        this.activeSpan = val;
+
+      putawayHandle() {
+        this.isShowAll = !this.isShowAll;
       },
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      }
     },
   }
 
 </script>
 
 <style scoped>
-  header {
+  header{
     height: 50px;
-    position: absolute;
     width: 100%;
-    top: 0;
-    left: 0;
-    padding: 0 0;
-    z-index: 1;
     line-height: 25px;
-    box-sizing: border-box;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:10;
+    /* box-sizing: border-box; */
   }
 
   .text-logo {
@@ -90,10 +96,10 @@
     vertical-align: middle;
     border-style: none;
     position: relative;
-    top: 15px;
+    top: 10px;
     right: -20px;
     font-size: 25px;
-    color: white;
+    color: #00adb5;
   }
 
   .text-icon {
@@ -108,6 +114,13 @@
     color: white;
   }
 
+  .put-away{
+    cursor: pointer;
+    font-size: 26px;
+    color: rgb(0, 173, 181);
+
+  }
+
   .meta {
     color: #7e95c5;
     width: 350px;
@@ -116,47 +129,6 @@
     font-weight: 700;
     font-size: 0.3rem;
   }
-
-  .menuConfig>>>.el-menu {
-    border-radius: 20px 0 0 20px;
-    border-bottom: none;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-  }
-
-  .menuConfig>>>.el-menu>.el-menu--horizontal {
-    border-radius: 20px 0 0 20px;
-    border-bottom: none;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-  }
-
-  .el-menu-item>>>.el-submenu__title {
-    border-radius: 20px 0 0 20px;
-    height: 50px;
-    line-height: 50px;
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
-    padding: 0 0;
-    margin-left: 30px;
-  }
-
-  .el-menu--horizontal>.el-menu-item {
-    border-bottom: none;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-  }
-
-  .el-menu--horizontal>.el-menu-item.is-active {
-    border-radius: 20px 0 0 20px;
-    border-bottom: none;
-  }
-
 
   .classRadius {
     text-align: center;
@@ -178,6 +150,48 @@
     border-radius: 20px;
     align-items: stretch;
     margin-bottom: 40px;
+  }
+
+  .novBgClass{
+    width:100%;
+    background:url(../../static/image/nov_bg.png);
+    animation: novBgClassIn .5s ;
+  }
+
+  .novBgClassMin{
+    width:7%;
+    border-left:1px solid rgba(252,222,192,0.8);
+    background:url(../../static/image/nov_bg.png);
+    position:absolute;
+    top:0;
+    right:0;
+    animation: novBgClassMinIn 1s ;
+  }
+
+  @keyframes novBgClassIn
+  {
+    0%   {opacity:0;}
+    40%  {opacity:0.4;}
+    100% {opacity:1;}
+  }
+  @-webkit-keyframes novBgClassIn /* Safari and Chrome */
+  {
+    0%   {opacity:0;}
+    40%  {opacity:0.4;}
+    100% {opacity:1;}
+  }
+
+  @keyframes novBgClassMinIn
+  {
+    0%   {opacity:0;}
+    40%  {opacity:0.4;}
+    100% {opacity:1;}
+  }
+  @-webkit-keyframes novBgClassMinIn /* Safari and Chrome */
+  {
+    0%   {opacity:0;}
+    40%  {opacity:0.4;}
+    100% {opacity:1;}
   }
 
 </style>
