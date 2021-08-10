@@ -1,0 +1,8 @@
+FROM nginx
+
+RUN echo 'erogeLib开始构建镜像' > /usr/share/nginx/html/index.html
+
+MAINTAINER Nakpa
+
+# 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面
+COPY dist/  /var/nginx/erogelib/static/
