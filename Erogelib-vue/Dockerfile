@@ -1,10 +1,10 @@
 FROM nginx
 
-RUN echo 'erogeLib开始构建镜像' > /var/nginx/erogelib/static/index.html
-
 RUN rm -rf /var/nginx/erogelib/static/
 
 RUN mkdir /var/nginx/erogelib/static
+
+RUN echo 'erogeLib开始构建镜像'
 
 MAINTAINER Nakpa
 
