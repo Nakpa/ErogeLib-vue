@@ -9,6 +9,6 @@ RUN echo 'erogeLib开始构建镜像'
 MAINTAINER Nakpa
 
 # 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面
-RUN cp -r /var/lib/jenkins/workspace/erogeLib-h5/Erogelib-vue/dist/. /var/nginx/erogelib/static/
+COPY dist/  /var/nginx/erogelib/static/
 
 RUN echo 'erogeLib镜像构建结束'
