@@ -10,9 +10,17 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+
     proxyTable: {
+      '/build-erogeLib': {
+        target: 'http://120.79.210.127:1919', // build之后请求网关转发
+        changeOrigin: true,
+        pathRewrite: {
+          '^/erogelib-build': ''
+        }
+      },
       '/erogelib': {
-        target: 'http://localhost:1919',
+        target: 'http://localhost:1919', // dev环境下请求本地
         changeOrigin: true,
         pathRewrite: {
           '^/erogelib': ''
@@ -64,7 +72,7 @@ module.exports = {
      * Source Maps
      */
 
-    productionSourceMap: true,
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 

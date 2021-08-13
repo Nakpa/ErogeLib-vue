@@ -5,7 +5,7 @@ import { notifyAction } from '@/utils';
 //第一步：实例化axios对象，并设置 1.请求地址；2.超时时间；3.设置请求头数据格式
 const axios = require('axios'); // 创建axios对象
 import qs from 'qs'
-axios.defaults.baseURL = 'http://127.0.0.1:1919'; // vue请求后端地址
+//axios.defaults.baseURL = 'http://127.0.0.1:1919'; // vue请求后端地址
 axios.defaults.timeout = 60000; // 多久超时
 axios.defaults.withCredentials = true; // 跨域访问需要发送cookie 时一定要加axios.defaults.withCredentials = true;
 
