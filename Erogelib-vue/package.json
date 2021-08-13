@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.21.0",
+    "cross-env": "^7.0.3",
     "crypto-js": "^4.0.0",
     "curvejs": "^0.3.4",
     "element-ui": "^2.14.1",
