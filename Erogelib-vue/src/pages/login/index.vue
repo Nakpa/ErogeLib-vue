@@ -9,7 +9,7 @@
           <p class="titleCss" style="margin-bottom: 40px;">- As the Night's、Reincarnation -</p>
           <el-row :gutter="10">
             <el-col :span="16">
-              <el-input v-model="account" clearable placeholder="在这里输入账号哦~"/>
+              <el-input v-model="account" clearable placeholder="在这里输入账号哦~" @keyup.enter.native="loginTestClick"/>
             </el-col>
           </el-row>
           <el-row :gutter="10">
@@ -149,5 +149,29 @@ export default {
   font-style: italic;
 //   letter-spacing: 0.5px;
   color: #0061a8;
+}
+.label {
+  width: 250px;
+  height: 41px;
+  position: relative;
+  input {
+    padding: 0 10px;
+    // height: 35px;
+    background: none;
+    &:focus + span {
+      top: -23px;
+      font-size: 14px;
+    }
+  }
+  span {
+    position: absolute;
+    padding: 0 3px;
+    left: 10px;
+    font-size: 16px;
+    top: 0px;
+    transition: 0.25s all;
+    background: none;
+    color: #919191;
+  }
 }
 </style>

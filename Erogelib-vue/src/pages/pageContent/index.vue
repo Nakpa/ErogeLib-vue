@@ -36,7 +36,7 @@
           </el-row>
         </el-card>
       </el-col>
-      <el-col :span="4" class="side">&nbsp;123</el-col>
+      <el-col :span="4" class="side">&nbsp;</el-col>
     </el-row>
   </div>
 </template>

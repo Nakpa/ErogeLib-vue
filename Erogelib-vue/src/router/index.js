@@ -24,13 +24,13 @@ const basicRouterMap = [
       },
       {
         path: '/blog',
-        redirect: '/ergblog',
+        redirect: '/blog/ergblog',
         component: RouterView,
         children: [
           {
             path: '/blog/ergblog',
             name: '我的blog',
-            meta: { title: '我的blog', bgColor: true, keepAlive: true },
+            meta: { title: '我的blog(o゜▽゜)', bgColor: true, keepAlive: true },
             component: mainContent,
           }
         ]
@@ -40,7 +40,7 @@ const basicRouterMap = [
   {
     path: '/login',
     name: 'login',
-    meta: { title: '用户登录' },
+    meta: { title: '用户登录<(￣︶￣)↗' },
     component: Login
   },
 ];

@@ -18,6 +18,7 @@
               <el-dropdown-item icon="iconfont erg-icon-new-Blog" command="userInfo" disabled>新建博文</el-dropdown-item>
               <el-dropdown-item icon="iconfont erg-icon-tools" command="userInfo" disabled>ERG开发</el-dropdown-item>
               <el-dropdown-item v-if="user.userId" icon="iconfont erg-icon-exit" command="logout">账号登出</el-dropdown-item>
+              <el-dropdown-item v-else icon="iconfont erg-icon-exit" command="logout">登录 / 注册</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
