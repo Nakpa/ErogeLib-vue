@@ -40,7 +40,7 @@ const basicRouterMap = [
   {
     path: '/login',
     name: 'login',
-    meta: { title: '用户登录<(￣︶￣)↗' },
+    meta: { title: '求你登录一下吧😅' },
     component: Login
   },
 ];
