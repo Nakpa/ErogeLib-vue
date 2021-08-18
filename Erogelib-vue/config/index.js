@@ -16,7 +16,7 @@ module.exports = {
         target: 'http://120.79.210.127:1919', // build之后请求网关转发
         changeOrigin: true,
         pathRewrite: {
-          '^/erogelib-build': ''
+          '^/build-erogeLib': ''
         }
       },
       '/erogelib': {
