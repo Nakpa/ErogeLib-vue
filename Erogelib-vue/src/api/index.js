@@ -42,7 +42,7 @@ const codeMessage = {
 * 设置默认提交 json
 * 把数据对象序列化成 json 字符串
 */
-axios.defaults.headers['Content-Type'] = 'text/plain'; // 设置默认提 交 json
+axios.defaults.headers['Content-Type'] = 'application/json'; // 设置默认提 交 json
 // 把数据对象 序列化成 json 字符串
 // axios.defaults.transformRequest = data => JSON.stringify(data);
 var postHeader = 'application/json';
