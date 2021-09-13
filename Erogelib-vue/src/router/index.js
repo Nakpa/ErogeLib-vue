@@ -19,7 +19,7 @@ const basicRouterMap = [
       {
         path: '/home',
         name: 'home',
-        meta: { title: '我的主页(o゜▽゜)o', bgColor: true, keepAlive: true },
+        meta: { title: '我的主页(o゜▽゜)o',keepAlive: true },
         component: mainContent,
       },
       {
@@ -30,7 +30,7 @@ const basicRouterMap = [
           {
             path: '/blog/ergblog',
             name: '我的blog',
-            meta: { title: '我的blog😅', bgColor: true, keepAlive: true },
+            meta: { title: '我的blog😅',keepAlive: true },
             component: mainContent,
           }
         ]

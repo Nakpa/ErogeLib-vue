@@ -32,10 +32,10 @@
     <!-- </transition> -->
       <el-dialog title="写点文章" :visible.sync="addBlogFlag" 
         :append-to-body="true" :close-on-press-escape="false" 
-        :modal="false" width="50%" @close="closeDialog" :before-close="handleClose" destroy-on-close>
-        <addBlogDialog/>
+        :modal="false" width="65%" @close="closeDialog" :before-close="handleClose" destroy-on-close>
+        <addBlogDialog ref="addBlogDialog" />
         <span slot="footer" style="margin-right:10px">
-          <el-button size="mini" @click="closeDialog">提交</el-button>
+          <el-button size="mini" @click="submitForm">提交</el-button>
           <el-button size="mini" @click="closeDialog">返回</el-button>
         </span>
       </el-dialog>
@@ -73,7 +73,7 @@ export default {
   methods: {
 
     returnToHome() {
-      this.$router.push({path: '/home'});
+      this.$router.push({path: '/home'}).catch(err => {});
     },
 
     clickMore(val) {
@@ -97,13 +97,17 @@ export default {
       this.addBlogFlag = true;
     },
 
+    submitForm(){
+      if(this.addBlogFlag){
+        let formData = this.$refs.addBlogDialog.getFormData();
+        console.log('submitForm ---- ' , formData);
+        this.addBlogFlag = false;
+      }
+    },
+
     closeDialog() {
       if(this.addBlogFlag){
-        this.$confirm('内容还没保存, 你要奏了么')
-          .then(_ => {
-            this.addBlogFlag = false;
-          })
-          .catch(_ => {});
+        this.addBlogFlag = false;
       }
     },
 

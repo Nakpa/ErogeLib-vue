@@ -39,8 +39,10 @@ router.beforeEach((to, from, next) => {
 
 // 修改页面标题
 export function changeDocTitle(to) {
+  console.log(to.meta.title)
   if(to && to.meta && to.meta.title){
-    document.title = to.meta.title
+    document.title = to.meta.title;
+    console.log(document.title)
   }
 }
   

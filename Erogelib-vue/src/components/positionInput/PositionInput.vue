@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <label for="text">
-      <input type="text" id="text" :style="'width:'+ inputwidth + 'px'" v-model="inputVal" :input="this.checkInputValue()"/>
+      <input type="text" id="text" :style="'width:'+ inputwidth + 'px'" v-model="inputvalTemp" :input="this.checkInputValue()"/>
       <span :style="isTop?'top: -14px;font-size: 14px;':''">{{inputlabel}}</span>
     </label>
     <div v-if="inputtype == 'tag'" class="tagsClass">
@@ -20,10 +20,10 @@ export default {
     return {
       text: "hello",
       isTop: false,
-      inputVal: '',
       historyTags: [{tagName: '123',tagId: '123'},{tagName: '452222222222222226',tagId: '452222222222222226'}],
       historyTagsTemp: [],
       tagIdList: [],
+      inputvalTemp: '',
     };
   },
 
@@ -39,6 +39,10 @@ export default {
     inputtype: {
       type: String,
       default: 'text',
+    },
+    inputval: {
+      type: String,
+      default: '',
     }
   },
 
@@ -48,11 +52,12 @@ export default {
 
   methods: {
     checkInputValue() {
-      if(this.inputVal){
+      if(this.inputvalTemp){
         this.isTop = true;
       } else {
         this.isTop = false;
       }
+      this.$emit('update:inputval', this.inputvalTemp);
     },
     pushTags(tag){
       console.log(this.tagIdList.indexOf(tag.tagId));
@@ -60,7 +65,7 @@ export default {
         console.log(this.tagIdList);
         this.tagIdList.push(tag.tagId);
         this.$nextTick(() => {
-          this.inputVal = this.inputVal + ' ' + tag.tagName;
+          this.inputvalTemp = this.inputvalTemp + ' ' + tag.tagName;
         })
       }
     }
