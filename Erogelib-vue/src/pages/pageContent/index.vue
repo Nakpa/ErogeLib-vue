@@ -95,7 +95,7 @@ export default {
       let count = 0;
       let itemMap = [];
       let itemList = [];
-      this.preItemList.forEach(el => {
+      this.preItemList.splice(0,4).forEach(el => {
         if(count < 2) {
           count ++;
         } else {

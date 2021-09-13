@@ -59,8 +59,8 @@ var fileHeader = 'multipart/form-data'
 
 axios.interceptors.request.use(config => {
      // 从localStorage中获取token
-     let token = sessionStorage.getItem('Authorization');
-     let user = sessionStorage.getItem('userInfo');
+     let token = localStorage.getItem('Authorization');
+     let user = localStorage.getItem('userInfo');
     // 如果有token, 就把token设置到请求头中Authorization字段中
      token && (config.headers.Authorization = token);
     // 把userId塞进请求头里

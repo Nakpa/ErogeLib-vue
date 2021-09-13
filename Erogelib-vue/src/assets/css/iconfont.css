@@ -1,1 +1,31 @@
 @import 'https://at.alicdn.com/t/font_2605666_35cmf9hys8u.css';
+
+/* 重写消息提示样式 */
+.el-notification.right {
+  background-color: rgba(240,217,255,0.3);
+  padding: 7px 13px 10px 13px;
+  font-size: 10px;
+  line-height: 10px;
+  font-family: revert;
+}
+
+/* 重写弹窗dialog样式 */
+.el-dialog__body {
+  padding: 10px 10px!important;
+  color: #606266;
+  font-size: 14px;
+  word-break: break-all;
+}
+.el-dialog__header {
+  padding: 10px 10px 0px!important;
+}
+.el-dialog__footer {
+  padding: 0px 10px 10px!important;
+  text-align: right;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.formClass{
+  margin: 0 10px 0px 10px;
+}

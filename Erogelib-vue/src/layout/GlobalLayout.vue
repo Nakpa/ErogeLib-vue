@@ -41,12 +41,13 @@ export default {
     left:0;
     z-index: 0;
     width: 100%;
-    height: calc(100vh - 72px);
+    height: calc(100vh - 20px);
   }
   .dbfooter{
     position:absolute;
     bottom:0;
     left:0;
     z-index:10;
+    background:url(../../static/image/nov_bg.png);
   }
 </style>

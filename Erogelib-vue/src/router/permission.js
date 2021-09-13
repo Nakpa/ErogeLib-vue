@@ -8,13 +8,13 @@ const whiteList = ['/login', '/blog/ergblog'];
 
 // 登录判断
 const isLogin = () => {
-  return sessionStorage.getItem('token');
+  return localStorage.getItem('token');
 };
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
   //鉴权拦截操作
-  let token = sessionStorage.getItem('Authorization')
+  let token = localStorage.getItem('Authorization')
   console.log(' access route');
   changeDocTitle(to);
   if (token) {

@@ -15,7 +15,6 @@ export default {
   },
   mounted() {
     this.timer = 0;
-    console.log(this);
   },
 };
 </script>

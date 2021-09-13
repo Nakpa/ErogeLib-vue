@@ -12,7 +12,8 @@ import curvejs from 'curvejs'
 
 import Vuex from 'vuex' //引入状态管理
 import store from "@/store";
-import permission from "@/router/permission.js";
+
+import '@/config/index';
 
 
 Vue.config.productionTip = false

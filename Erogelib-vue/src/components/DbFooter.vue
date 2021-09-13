@@ -1,7 +1,7 @@
 <template>
   <footer class="container">
     <div class="footer-main">
-      <p class="footer-main-title">{{ message }}</p>
+      <!-- <p class="footer-main-title">{{ message }}</p> -->
       <a href="https://github.com/Nakpa/ErogeLib-vue" target="_blank"
         class="footer-main-link">Github</a><a href="mailto:HarumaNakpa@outlook.com" class="footer-main-link">Email</a>
         <a href="https://jq.qq.com/?_wv=1027&k=GFgFJC3o" target="_blank"
@@ -9,16 +9,15 @@
     </div>
 
     <div class="layout-copy footdoc" style="text-align:center;">
-      <i class="footdoc">
+      <!-- <i class="footdoc">
         <canvas id="myCanvas" width="80" height="50" style="background-color: transparent;"></canvas>
-      </i>
+      </i> -->
       <i class="footdoc">2021 @ Nakpa. - Eroge is life , like a melody - </i>
     </div>
 
     <div class="footer-social">
       <i class="doc-icon-weixin footdoc">
-        <span style="position:absolute;bottom: 50px;right: 20px;">123123123</span>
-        <span style="position:absolute;bottom:5px;right:20px">Web Design by Nakpa</span>
+        <span style="position:absolute;bottom:0;right:15px">- Web Design by Nakpa -</span>
       </i>
     </div>
   </footer>
@@ -32,59 +31,59 @@
       }
     },
     mounted() {
-      const util = {
-        random: function (min, max) {
-          return min + Math.floor(Math.random() * (max - min + 1))
-        },
-        randomColor: function () {
-          return ['#22CAB3', '#90CABE', '#A6EFE8', '#C0E9ED', '#C0E9ED', '#DBD4B7', '#D4B879', '#ECCEB2', '#F2ADA6', '#FF7784'][util.random(0, 9)]
-        },
-        randomSpeed: function () {
-          return (Math.random() > 0.5 ? 0.5 : -0.5) * Math.random(0 , 0.001)
-        }
-      }
-      const {Stage,Curve,motion} = this.$curvejs;
-      let canvas = document.getElementById('myCanvas'),
-      stage = new Stage(canvas);
-      for(let i = 0; i < 3; i++){
-        let curve = new Curve({
-          color: util.randomColor(),
-          points: [util.random(10, canvas.width - 10), util.random(10, canvas.height - 10),util.random(10, canvas.width - 10),
-            util.random(10, canvas.height - 10), util.random(10, canvas.width - 10), util.random(10, canvas.height - 10),
-            util.random(10, canvas.width - 10), util.random(10, canvas.height - 10)],
-          data: [util.randomSpeed(), util.randomSpeed(),
-          util.randomSpeed(), util.randomSpeed(),
-          util.randomSpeed(), util.randomSpeed(),
-          util.randomSpeed(), util.randomSpeed()],
-          motion: function motion(points, data) {
-            points.forEach(function (item, index) {
-              points[index] += data[index]
-              if (points[index] < 0) {
-                  points[index] = 0
-                  data[index] *= -1
-              }
-              if (index % 2 === 0) {
-                if (points[index] > canvas.width) {
-                  points[index] = canvas.width
-                  data[index] *= -1
-                }
-              } else {
-                if (points[index] > canvas.height) {
-                  points[index] = canvas.height
-                  data[index] *= -1
-                }
-              }
-            })
-          }
-        });
-        stage.add(curve);
-      }
+      // const util = {
+      //   random: function (min, max) {
+      //     return min + Math.floor(Math.random() * (max - min + 1))
+      //   },
+      //   randomColor: function () {
+      //     return ['#22CAB3', '#90CABE', '#A6EFE8', '#C0E9ED', '#C0E9ED', '#DBD4B7', '#D4B879', '#ECCEB2', '#F2ADA6', '#FF7784'][util.random(0, 9)]
+      //   },
+      //   randomSpeed: function () {
+      //     return (Math.random() > 0.5 ? 0.5 : -0.5) * Math.random(0 , 0.001)
+      //   }
+      // }
+      // const {Stage,Curve,motion} = this.$curvejs;
+      // let canvas = document.getElementById('myCanvas'),
+      // stage = new Stage(canvas);
+      // for(let i = 0; i < 3; i++){
+      //   let curve = new Curve({
+      //     color: util.randomColor(),
+      //     points: [util.random(10, canvas.width - 10), util.random(10, canvas.height - 10),util.random(10, canvas.width - 10),
+      //       util.random(10, canvas.height - 10), util.random(10, canvas.width - 10), util.random(10, canvas.height - 10),
+      //       util.random(10, canvas.width - 10), util.random(10, canvas.height - 10)],
+      //     data: [util.randomSpeed(), util.randomSpeed(),
+      //     util.randomSpeed(), util.randomSpeed(),
+      //     util.randomSpeed(), util.randomSpeed(),
+      //     util.randomSpeed(), util.randomSpeed()],
+      //     motion: function motion(points, data) {
+      //       points.forEach(function (item, index) {
+      //         points[index] += data[index]
+      //         if (points[index] < 0) {
+      //             points[index] = 0
+      //             data[index] *= -1
+      //         }
+      //         if (index % 2 === 0) {
+      //           if (points[index] > canvas.width) {
+      //             points[index] = canvas.width
+      //             data[index] *= -1
+      //           }
+      //         } else {
+      //           if (points[index] > canvas.height) {
+      //             points[index] = canvas.height
+      //             data[index] *= -1
+      //           }
+      //         }
+      //       })
+      //     }
+      //   });
+      //   stage.add(curve);
+      // }
 
-      function tick() {
-        stage.update();
-        requestAnimationFrame(tick)
-      }
-      tick()
+      // function tick() {
+      //   stage.update();
+      //   requestAnimationFrame(tick)
+      // }
+      // tick()
     },
 
   }
@@ -105,7 +104,7 @@
   .container {
     padding: 0 10px;
     margin: 0 auto;
-    background-color: rgb(50, 64, 87);
+    background-color: rgba(204, 255, 255, 0.2);;
   }
 
   a {
@@ -114,7 +113,7 @@
 
   .footer-main {
     font-size: 0;
-    padding-top: 5px;
+    /* padding-top: 5px; */
     display: inline-block;
     width: 20%;
   }
@@ -127,7 +126,7 @@
 
   .footer-main .footer-main-link {
     display: inline-block;
-    margin: 12px 38px 0 0;
+    margin: 5px 38px 0 0;
     line-height: 1;
     font-size: 12px;
     color: #768193;
@@ -136,7 +135,7 @@
   .layout-copy {
     display: inline-block;
     width: 60%;
-    height: 50px;
+    height: 15px;
     margin-left: 3px;
   }
 

@@ -25,7 +25,8 @@
     "vue": "^2.5.2",
     "vue-carousel": "^0.18.0",
     "vue-router": "^3.0.1",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "wangeditor": "^4.7.8"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

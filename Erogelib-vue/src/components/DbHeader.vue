@@ -3,81 +3,123 @@
     <!-- <transition name="bounce"> -->
       <el-row :class="isShowAll ? novBgClass : novBgClassMin" style="line-height:30px;height: 50px;background-color: rbga(238,238,238,0.6);border-bottom:1px solid rgba(252,222,192,1);">
         <el-col v-if="isShowAll" :span="2">
-          <div class="text-logo" style="cursor:pointer;">{{msg}}</div>
+          <div class="text-logo" style="cursor:pointer;" @click="returnToHome">{{msg}}</div>
         </el-col>
-        <el-col v-if="isShowAll" :span="20">
+        <el-col v-if="isShowAll" :span="21">
         </el-col>
         <el-col :span="isShowAll ? 1 : 12">
           <el-dropdown trigger="click" placement="bottom-start"  @command="clickMore">
             <div style="position: relative;top: 10px;left: 10px;text-align: center;cursor:pointer;
-            border-style: none;width:30px;height:30px;border-radius:15px;border: 1px solid #00adb5;">
+              border-style: none;width:30px;height:30px;border-radius:15px;border: 1px solid #00adb5;">
               <i class="iconfont erg-icon-neko-foot-icon" style="font-size:24px;color: #00adb5;"></i>
             </div>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item icon="iconfont erg-icon-gerenzhongxinx" command="userInfo" disabled>我的信息</el-dropdown-item>
-              <el-dropdown-item icon="iconfont erg-icon-new-Blog" command="userInfo" disabled>新建博文</el-dropdown-item>
-              <el-dropdown-item icon="iconfont erg-icon-tools" command="userInfo" disabled>ERG开发</el-dropdown-item>
+              <el-dropdown-item icon="iconfont erg-icon-new-Blog" command="addBlog" :disabled="!user.userId">新建博文</el-dropdown-item>
+              <el-dropdown-item icon="iconfont erg-icon-tools" command="erogeMaker" disabled>ERG开发</el-dropdown-item>
               <el-dropdown-item v-if="user.userId" icon="iconfont erg-icon-exit" command="logout">账号登出</el-dropdown-item>
               <el-dropdown-item v-else icon="iconfont erg-icon-exit" command="logout">登录 / 注册</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
-        <el-col :span="isShowAll ? 1 : 12">
-          <!-- style="" -->
+        <!-- <el-col :span="isShowAll ? 1 : 12">
           <i v-if="isShowAll" class="iconfont erg-icon-put-away-right"
           style="cursor:pointer;font-size:26px;color: #00adb5;position: relative;top: 10px;left: 40%;border-style: none;" @click="putawayHandle"></i>
           <i v-if="!isShowAll" class="iconfont erg-icon-put-away-left-copy"
           style="cursor:pointer;font-size:26px;color: #00adb5;position: relative;top: 10px;left: 40%;border-style: none;" @click="putawayHandle"></i>
-        </el-col>
+        </el-col> -->
       </el-row>
     <!-- </transition> -->
+      <el-dialog title="写点文章" :visible.sync="addBlogFlag" 
+        :append-to-body="true" :close-on-press-escape="false" 
+        :modal="false" width="50%" @close="closeDialog" :before-close="handleClose" destroy-on-close>
+        <addBlogDialog/>
+        <span slot="footer" style="margin-right:10px">
+          <el-button size="mini" @click="closeDialog">提交</el-button>
+          <el-button size="mini" @click="closeDialog">返回</el-button>
+        </span>
+      </el-dialog>
   </header>
 </template>
 
 <script>
-  export default {
-    name: 'db-header',
-    data() {
-      return {
-        msg: 'ErogeLib',
-        uniqueOpenedFlag: true,
-        activeIndex: "1",
-        isShowAll: true,
-        novBgClass: 'novBgClass',
-        novBgClassMin: 'novBgClassMin',
-        user: {},
+import addBlogDialog from '@p/pageContent/comps/addBlogDialog.vue';
+export default {
+  name: 'db-header',
+
+  components: {
+    addBlogDialog
+  },
+
+  data() {
+    return {
+      msg: 'ErogeLib',
+      uniqueOpenedFlag: true,
+      activeIndex: "1",
+      isShowAll: true,
+      novBgClass: 'novBgClass',
+      novBgClassMin: 'novBgClassMin',
+      user: {},
+      addBlogFlag: false,
+    }
+  },
+
+  mounted() {
+    this.$nextTick( () => {
+      this.user = JSON.parse(localStorage.getItem('userInfo')) || {}
+    })
+  },
+
+  methods: {
+
+    returnToHome() {
+      this.$router.push({path: '/home'});
+    },
+
+    clickMore(val) {
+      if(val == 'logout'){
+        this.logoutClick();
+      } else if (val == 'addBlog'){
+        this.addBlog();
+      } else if(val == 'erogeMaker'){
+
       }
     },
 
-    mounted() {
-      this.$nextTick( () => {
-        this.user = JSON.parse(sessionStorage.getItem('userInfo')) || {}
-      })
+    // 登出
+    logoutClick() {
+      localStorage.removeItem('Authorization');
+      localStorage.removeItem('userInfo');
+      this.$router.push({path: 'login'});
+    },
+    
+    addBlog() {
+      this.addBlogFlag = true;
     },
 
-    methods: {
-
-      clickMore(val) {
-        if(val == 'logout'){
-          this.logoutClick();
-        }
-      },
-
-      // 登出
-      logoutClick() {
-        localStorage.removeItem('Authorization');
-        sessionStorage.removeItem('Authorization');
-        localStorage.removeItem('userInfo');
-        sessionStorage.removeItem('userInfo');
-        this.$router.push({path: 'login'});
-      },
-
-      putawayHandle() {
-        this.isShowAll = !this.isShowAll;
-      },
+    closeDialog() {
+      if(this.addBlogFlag){
+        this.$confirm('内容还没保存, 你要奏了么')
+          .then(_ => {
+            this.addBlogFlag = false;
+          })
+          .catch(_ => {});
+      }
     },
-  }
 
+    handleClose(done) {
+      if(this.addBlogFlag){
+        this.$confirm('内容还没保存, 你要奏了么')
+          .then(_ => {done();})
+          .catch(_ => {});
+      }
+    },
+
+    putawayHandle() {
+      this.isShowAll = !this.isShowAll;
+    },
+  },
+}
 </script>
 
 <style scoped>
