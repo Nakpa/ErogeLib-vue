@@ -114,7 +114,7 @@ label {
 .el-tag{
   margin-right: 7px;
   cursor: pointer;
-  height: 25px;
-  line-height: 23px;
+  height: 25px !important;
+  line-height: 23px !important;
 }
 </style>
