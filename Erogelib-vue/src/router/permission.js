@@ -6,11 +6,6 @@ import 'nprogress/nprogress.css'; // Progress 进度条样式
 // 访问白名单
 const whiteList = ['/login', '/blog/ergblog'];
 
-// 登录判断
-const isLogin = () => {
-  return localStorage.getItem('token');
-};
-
 router.beforeEach((to, from, next) => {
   NProgress.start()
   //鉴权拦截操作
