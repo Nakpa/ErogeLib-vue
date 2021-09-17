@@ -119,7 +119,7 @@ export default {
           return;
         }
         if(!formData.blogContent || !ReplaceHtmltoText(formData.blogContent).trim() 
-          ||ReplaceHtmltoText(formData.blogContent).trim().lastIndexOf('&nbsp;') == 0 ){
+          || ReplaceHtmltoText(formData.blogContent).trim().lastIndexOf('&nbsp;') == 0 ){
           this.$notify({
             message: "文章内容不能为空",
             duration: 750,

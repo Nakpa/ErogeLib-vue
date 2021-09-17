@@ -13,8 +13,8 @@
               <el-card shadow="hover" :body-style="{ padding: '0' }" class="itemCardClass" @click.native="openDetailDialog(handlerItem)">
                 <el-image
                   style="width: 100%; height: 120px"
-                  :src="handlerItem.imgUrl"
-                  fit="cover" />
+                  :src="handlerItem.imgUrl?handlerItem.imgUrl:'https://p.sda1.dev/2/3e847456c9b9d9295233b79b0130600e/NoImg.png'"
+                  :fit="handlerItem.imgUrl?'cover':'scale-down'" />
                   <el-row :gutter="20">
                     <el-col :span="8" style="font-size:12px;">
                       <el-row style="padding-top:7px;line-height: 16px;">
