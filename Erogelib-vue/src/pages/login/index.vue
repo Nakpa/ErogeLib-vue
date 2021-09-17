@@ -1,26 +1,24 @@
 <template>
   <div class="mainBgClass">
-    <!-- <el-button @click="loginTestClick">登录按钮</el-button>
-    <el-button @click="logoutTestClick">登出按钮</el-button> -->
-    <el-card class="loginPane">
+    <el-card class="loginPane" :style="isLogin? 'filter: blur(2px);':''">
       <el-row :gutter="10" style="padding-top: 75px;">
         <el-col :span="16">
           <p class="titleCss">Eroge is life 、 like a melody</p>
           <p class="titleCss" style="margin-bottom: 40px;">- As the Night's、Reincarnation -</p>
           <el-row :gutter="10">
             <el-col :span="16">
-              <el-input v-model="account" clearable placeholder="在这里输入账号哦~" @keyup.enter.native="loginTestClick"/>
+              <el-input v-model="account" clearable placeholder="在这里输入账号~" @keyup.enter.native="loginTestClick"/>
             </el-col>
           </el-row>
           <el-row :gutter="10">
             <el-col :span="16">
-              <el-input v-model="password" clearable show-password placeholder="在这里输入密码哦~" auto-complete="off" @keyup.enter.native="loginTestClick"/>
+              <el-input v-model="password" clearable show-password placeholder="在这里输入密码~" auto-complete="off" @keyup.enter.native="loginTestClick"/>
             </el-col>
           </el-row>
           <el-row :gutter="10">
             <el-col :span="16">
               <el-button v-if="false" class="btnClass">注册</el-button>
-              <el-button class="btnClass" @click="loginTestClick">
+              <el-button class="btnClass" @click="showVerifyPlugin">
                 <i class="iconfont erg-icon-Category" style="color: rgba(128,128,128,0.7);"/>
                 <span style="color: rgba(128,128,128,0.7);">登录</span></el-button>
             </el-col>
@@ -37,12 +35,29 @@
         </a>
       </div>
     </el-card>
+    <div v-if="isLogin" class="loginPane-mask"></div>
+    <el-row v-if="isLogin" :gutter="10">
+      <el-col :span="16"  class="verifyClass">
+        <slide-verify
+          :l="35"
+          :r="10"
+          :w="300"
+          :h="150"
+          @success="onSuccess"
+          @again="tryAgain"
+          @fail="onFail"
+          @refresh="onRefresh"
+          :slider-text="sliderText">
+        </slide-verify>
+        <i class="el-icon-circle-close" style="cursor:pointer;padding-left: calc(50% - 190px);" @click="isLogin = false"></i>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 import {
-  userLogin
+  userLogin 
 } from '@a/erogelib/userinfo/index.js';
 
 import {mapMutations} from "vuex";
@@ -59,6 +74,8 @@ export default {
     return {
       account: '',
       password: '',
+      isLogin: false,
+      sliderText: 'Slide right to Confirm Login'
     }
   },
 
@@ -68,7 +85,7 @@ export default {
   methods: {
     ...mapMutations(['changeLogin', 'setUserInfo']),
 
-    loginTestClick() {
+    showVerifyPlugin(){
       if(!this.account || !this.password){
         // this.$notify.info("未输入完整的账号信息");
         this.$notify({
@@ -78,6 +95,32 @@ export default {
         })
         return;
       }
+      if(!this.isLogin){
+        this.isLogin = true;
+      }
+    },
+
+    onSuccess() {
+      console.log(' verify success , now this time Login');
+      if(this.isLogin){
+        this.isLogin = false;
+        this.loginTestClick();
+      }
+    },
+
+    tryAgain() {
+      console.log(' verify fail , are you robot ?');
+    },
+
+    onFail() {
+      console.log(' verify fail , plz confirm again');
+    },
+
+    onRefresh() {
+      console.log(' refresh img ');
+    },
+
+    loginTestClick() {
       let loginMap = {
         userAccount: this.account,
         password: this.password
@@ -92,6 +135,7 @@ export default {
             remark: '',
           }
           this.setUserInfo(userInfo);
+          this.getUserTags();
           this.$router.push({path: '/home'});
         return;
       }
@@ -145,6 +189,24 @@ export default {
   left: calc(50% - 275px);
   background:url(../../../static/image/comf_kuro_bg.png);
 }
+.loginPane-mask{
+  position: absolute;
+  width: 550px;
+  height: 500px;
+  min-height: 500px;
+  top: calc(50% - 250px);
+  left: calc(50% - 275px);
+  background: rgba(0,0,0,0.3);
+  z-index: 99;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+.verifyClass{
+  position: absolute;
+  top: calc(50% + 250px);
+  left: calc(50% - 180px);
+  z-index: 999;
+}
 .bottomHelp{
   position: absolute;
   bottom: 5px;
@@ -166,29 +228,5 @@ export default {
   font-style: italic;
 //   letter-spacing: 0.5px;
   color: #0061a8;
-}
-.label {
-  width: 250px;
-  height: 41px;
-  position: relative;
-  input {
-    padding: 0 10px;
-    // height: 35px;
-    background: none;
-    &:focus + span {
-      top: -23px;
-      font-size: 14px;
-    }
-  }
-  span {
-    position: absolute;
-    padding: 0 3px;
-    left: 10px;
-    font-size: 16px;
-    top: 0px;
-    transition: 0.25s all;
-    background: none;
-    color: #919191;
-  }
 }
 </style>

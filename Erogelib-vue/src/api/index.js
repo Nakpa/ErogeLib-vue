@@ -27,6 +27,7 @@ const codeMessage = {
     503: '服务不可用，服务器暂时过载或维护。',
     504: '网关超时。',
     1001: '输入的原密码与账号当前密码不匹配',
+    1002: '发出的请求未获取到登录信息',
     50000: 'token认证失败!'
 };
 
@@ -60,7 +61,7 @@ var fileHeader = 'multipart/form-data'
 axios.interceptors.request.use(config => {
      // 从localStorage中获取token
      let token = localStorage.getItem('Authorization');
-     let user = localStorage.getItem('userInfo');
+     let user = JSON.parse(localStorage.getItem('userInfo'));
     // 如果有token, 就把token设置到请求头中Authorization字段中
      token && (config.headers.Authorization = token);
     // 把userId塞进请求头里

@@ -20,7 +20,7 @@ export default {
     return {
       text: "hello",
       isTop: false,
-      historyTags: [{tagName: '123',tagId: '123'},{tagName: '452222222222222226',tagId: '452222222222222226'}],
+      historyTags: [],
       historyTagsTemp: [],
       tagIdList: [],
       inputvalTemp: '',
@@ -47,7 +47,13 @@ export default {
   },
 
   mounted() {
-    this.historyTagsTemp = this.historyTags.splice(0,4);
+    let userId = 'null';
+    let user = JSON.parse(localStorage.getItem('userInfo')) || {};
+    if(user && user.userId){
+      userId = user.userId;
+    }
+    this.historyTags = JSON.parse(localStorage.getItem('tagState'+userId));
+    this.historyTagsTemp = this.historyTags.splice(0,8);
   },
 
   methods: {
@@ -57,13 +63,33 @@ export default {
       } else {
         this.isTop = false;
       }
+      if(this.inputtype == 'tag'){
+        let tagTemp = this.inputvalTemp.trim();
+        if(tagTemp){
+          let tagTempList = tagTemp.split(" ");
+          let tagTempList2 = [];
+          for(let i = 0; i < tagTempList.length ; i++){
+            if(tagTempList.indexOf(tagTempList[i]) == i){  
+              tagTempList2.push(tagTempList[i]);
+            }
+          }
+          if(this.inputvalTemp.substring(this.inputvalTemp.length - 1) == ' '){
+            this.inputvalTemp = tagTempList2.join(" ") + ' ';
+          } else {
+            this.inputvalTemp = tagTempList2.join(" ");
+          }
+          this.tagIdList = tagTempList2;
+        } else {
+          this.tagIdList = [];
+        }
+      }
       this.$emit('update:inputval', this.inputvalTemp);
     },
     pushTags(tag){
-      console.log(this.tagIdList.indexOf(tag.tagId));
-      if(this.tagIdList.indexOf(tag.tagId) == -1) {
+      console.log(this.tagIdList.indexOf(tag.tagName));
+      if(this.tagIdList.indexOf(tag.tagName) == -1) {
         console.log(this.tagIdList);
-        this.tagIdList.push(tag.tagId);
+        this.tagIdList.push(tag.tagName);
         this.$nextTick(() => {
           this.inputvalTemp = this.inputvalTemp + ' ' + tag.tagName;
         })
@@ -116,5 +142,6 @@ label {
   cursor: pointer;
   height: 25px !important;
   line-height: 23px !important;
+  color: teal !important;
 }
 </style>

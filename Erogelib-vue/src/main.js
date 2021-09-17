@@ -12,6 +12,7 @@ import curvejs from 'curvejs'
 
 import Vuex from 'vuex' //引入状态管理
 import store from "@/store";
+import SlideVerify from 'vue-monoplasty-slide-verify';
 import permission from "@/router/permission.js";
 import '@/config/index';
 
@@ -23,6 +24,23 @@ Object.defineProperty(Vue.prototype, '$curvejs', { value: curvejs });
 
 Vue.use(Vuex) ;
 Vue.use(ElementUI, {lang});
+Vue.use(SlideVerify);
+
+if (!String.prototype.trim) {
+  String.prototype.trim = function () {
+    return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+  };
+}
+
+
+let orignalSetItem = window.localStorage.setItem;   // 原生localStorage.setItem方法
+localStorage.setItem = function(key,newValue){
+  let setItemEvent = new Event("setItemEvent");  // 重写注册setItem
+  setItemEvent.key = key;                        
+  setItemEvent.newValue = newValue;              
+  window.dispatchEvent(setItemEvent);            // 派发setItem
+  orignalSetItem.apply(this, arguments);         // 设置值
+}
 
 /* eslint-disable no-new */
 new Vue({

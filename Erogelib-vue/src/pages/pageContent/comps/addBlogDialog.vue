@@ -18,6 +18,10 @@ export default {
   },
 
   props: {
+    blogId: {
+      type: Number,
+      default: -1,
+    }
   },
 
   data: function () {
@@ -66,8 +70,9 @@ export default {
     getFormData() {
       let xss = require("xss");
       let formData = {
-        title: this.formData.title,
-        tagIdList: this.formData.tagIdList,
+        blogId: this.blogId == -1 ? null : this.blogId,
+        blogTitle: this.formData.title,
+        tagNames: this.formData.tagIdList,
         blogContent: xss(this.editor.txt.html()),
       };
       return formData;

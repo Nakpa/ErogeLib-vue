@@ -75,3 +75,15 @@ export function getMonthDate(date) {
   var monthEng = months[day];
   return monthEng;
 }
+
+export function ReplaceHtmltoText(str) {
+  return str.replace(/<[^>]+>/g,"");
+}
+
+export function arrPropertySort(property) {
+  return function(a,b){
+    var value1 = a[property];
+    var value2 = b[property];
+    return  value2 - value1;
+  }
+}

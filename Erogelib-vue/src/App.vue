@@ -19,6 +19,9 @@ export default {
   components: {
   },
 
+  mounted() {
+  },
+
   methods: {
     reload() {
       this.$nextTick(() => {
@@ -32,9 +35,6 @@ export default {
 </script>
 
 <style>
-  .mouseDiv{
-    background-color: rgba(62,219,240, 0.3);
-  }
   element.style {
     background-color: rgb(10, 47, 88);
   }
@@ -69,7 +69,7 @@ export default {
     width: 0px;
   } */
   ::-webkit-scrollbar {
-    width: 5px;
+    width: 7px;
     height: 5px;
   }
   ::-webkit-scrollbar-track {
@@ -77,7 +77,7 @@ export default {
   }
   ::-webkit-scrollbar-thumb {
     background-color: #d6e6d346;
-    border-radius: 5px;
+    border-radius: 7px;
     border: 1px solid #f1f1f1;
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   }

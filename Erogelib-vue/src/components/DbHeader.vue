@@ -43,7 +43,15 @@
 </template>
 
 <script>
+import {mapMutations} from "vuex";
+import {
+  arrPropertySort, ReplaceHtmltoText
+} from '@/utils/index.js';
+
 import addBlogDialog from '@p/pageContent/comps/addBlogDialog.vue';
+import {
+  saveBlog
+} from '@a/erogelib/blog/index.js';
 export default {
   name: 'db-header',
 
@@ -71,6 +79,7 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['setBlogState','setTagState']),
 
     returnToHome() {
       this.$router.push({path: '/home'}).catch(err => {});
@@ -101,23 +110,83 @@ export default {
       if(this.addBlogFlag){
         let formData = this.$refs.addBlogDialog.getFormData();
         console.log('submitForm ---- ' , formData);
+        if(!formData.blogTitle || !formData.blogTitle.trim()){
+          this.$notify({
+            message: "标题不能为空",
+            duration: 750,
+            showClose: true,
+          })
+          return;
+        }
+        if(!formData.blogContent || !ReplaceHtmltoText(formData.blogContent).trim() 
+          ||ReplaceHtmltoText(formData.blogContent).trim().lastIndexOf('&nbsp;') == 0 ){
+          this.$notify({
+            message: "文章内容不能为空",
+            duration: 750,
+            showClose: true,
+          })
+          return;
+        }
         this.addBlogFlag = false;
+        saveBlog(formData).then( res => {
+          if(res.code == 200){
+            this.changeLocalStorageBlog(res.result);
+          }
+        });
       }
+    },
+
+    changeLocalStorageBlog(newBlog) {
+      let userId = 'null';
+      if(this.user && this.user.userId){
+        userId = this.user.userId;
+      }
+      let newBlodState = [];
+      newBlodState.push(newBlog);
+      let oldBlog = JSON.parse(localStorage.getItem('blogState'+userId));
+      if(oldBlog){
+        oldBlog.forEach(el => {
+          newBlodState.push(el);
+        });
+      }
+      this.setBlogState(newBlodState);
+
+      // changeBlogTags
+      let newTags = [];
+      if(newBlog.tagNames && newBlog.tagNames.trim()){
+        newTags = newBlog.tagNames.trim().split(' ');
+      }
+      let oldBlogtag = JSON.parse(localStorage.getItem('tagState'+userId));
+      newTags.forEach(x => {
+        let filterTag = oldBlogtag.find(el => (x == el.tagName));
+        console.log(x, filterTag)
+        if(filterTag){
+          filterTag.tagCount++;
+        } else {
+          oldBlogtag.push({tagName: x, tagCount: 1})
+        }
+      })
+      oldBlogtag = oldBlogtag.sort(arrPropertySort('tagCount'));
+      this.setTagState(oldBlogtag);
     },
 
     closeDialog() {
       if(this.addBlogFlag){
+        let formData = this.$refs.addBlogDialog.getFormData();
         this.addBlogFlag = false;
       }
     },
 
     handleClose(done) {
       if(this.addBlogFlag){
+        let formData = this.$refs.addBlogDialog.getFormData();
         this.$confirm('内容还没保存, 你要奏了么')
           .then(_ => {done();})
           .catch(_ => {});
       }
     },
+
+    // 关闭blog页面时保存当时未保存的blog内容。
 
     putawayHandle() {
       this.isShowAll = !this.isShowAll;
